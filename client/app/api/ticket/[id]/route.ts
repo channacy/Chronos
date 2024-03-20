@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { NextApiRequest } from 'next';
+
 import prisma from "@/lib/prisma"
 
-export async function DELETE(request, {params}){
+export async function DELETE(request: NextApiRequest, {params}){
     const id = params.id;
     console.log({id})
 
