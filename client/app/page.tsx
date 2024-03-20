@@ -1,5 +1,5 @@
 import styles from "./page.module.css";
-import DataTable from "@/components/DataTable"
+import DataTable from "@/components/Datatable"
 import { ProfileAvatar } from "@/components/Avatar";
 import prisma from "@/lib/prisma"
 import Post from "@/components/Post"
