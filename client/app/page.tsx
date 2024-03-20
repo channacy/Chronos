@@ -1,9 +1,9 @@
 import styles from "./page.module.css";
-import DataTable from "@/components/Datatable"
-import { ProfileAvatar } from "@/components/Avatar";
+import DataTable from "./components/Datatable"
+import { ProfileAvatar } from "./components/Avatar";
 import prisma from "@/lib/prisma"
-import Post from "@/components/Post"
-
+import Post from "@/app/components/Post"
+import Link from 'next/link'
 
 async function getPosts(){
   const data = await prisma.task.findMany({
@@ -20,6 +20,7 @@ export default async function Home() {
       <div className={styles.header}>
         <h1>Chronos</h1>
         <ProfileAvatar/>
+        <Link href={'/pages/add-ticket'}>Add Post</Link>
       </div>
       <DataTable initialData={data}/>
      
