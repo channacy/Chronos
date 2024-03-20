@@ -1,0 +1,39 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Task {
+  id        String     @default(cuid()) @id
+  title     String
+  summary   String?
+  priority   String?
+  status     String?
+  published Boolean @default(false)
+  completed Boolean @default(false)
+  author    User?   @relation(name:"Author",fields: [authorId], references: [id])
+  authorId  String?
+  assignee    User?   @relation(name:"Assignee",fields: [assigneeId], references: [id])
+  assigneeId  String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+}
+
+model User {
+  id            String       @default(cuid()) @id
+  name          String?
+  email         String?   @unique
+  role          String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  authoredTasks   Task[] @relation(name: "Author")
+  assignedTasks Task[]       @relation(name: "Assignee")
+  @@map(name: "users")
+}
