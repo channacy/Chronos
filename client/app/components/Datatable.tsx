@@ -3,6 +3,7 @@ import * as React from "react"
 import { useEffect, useState } from 'react'
 import prisma from "../../lib/prisma"
 import { useRouter } from "next/navigation"
+import Link from 'next/link'
 
 import {
   ColumnDef,
@@ -39,40 +40,6 @@ import {
   TableRow,
 } from "@/app/components/ui/table"
 
-// const data: Payment[] = [
-//   {
-//     id: "m5gr84i9",
-//     status: "success",
-//     email: "ken99@yahoo.com",
-//   },
-//   {
-//     id: "3u1reuv4",
-//     status: "success",
-//     email: "Abe45@gmail.com",
-//   },
-//   {
-//     id: "derv1ws0",
-//     status: "processing",
-//     email: "Monserrat44@gmail.com",
-//   },
-//   {
-//     id: "5kma53ae",
-//     status: "success",
-//     email: "Silas22@gmail.com",
-//   },
-//   {
-//     id: "bhqecj4p",
-//     status: "failed",
-//     email: "carmella@hotmail.com",
-//   },
-// ]
-
-// export type Payment = {
-//   id: string
-//   status: "pending" | "processing" | "success" | "failed"
-//   email: string
-// }
-
 // const data: Ticket[] = [
 //     {
 //         title: "task 1",
@@ -85,6 +52,21 @@ const handleDelete = async (postId:string) => {
     try {
       await fetch(`/api/ticket/${postId}`, {
         method: 'DELETE'
+      });
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleViewDetails = async (postId:string) => {
+    window.location.href =`/pages/ticket/${postId}`
+  };
+
+  const handleClose = async (postId:string) => {
+    try {
+      await fetch(`/api/ticket/${postId}`, {
+        method: 'PUT'
       });
       window.location.reload();
     } catch (e) {
@@ -126,14 +108,6 @@ export const columns: ColumnDef<Ticket>[] = [
     enableHiding: false,
   },
 
-//   {
-//     accessorKey: "id",
-//     header: "ID",
-//     cell: ({ row }) => (
-//       <div className="capitalize">{row.getValue("id")}</div>
-//     ),
-//   },
-
   {
     accessorKey: "title",
     header: "Title",
@@ -172,6 +146,12 @@ export const columns: ColumnDef<Ticket>[] = [
     },
     cell: ({ row }) => <div>{row.getValue("priority")}</div>,
   },
+  {
+    header: "Assigned To",
+    cell: ({ row }) => (
+      <div className="capitalize">Channacy</div>
+    ),
+  },
 
   {
     id: "actions",
@@ -190,12 +170,10 @@ export const columns: ColumnDef<Ticket>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(ticket.id)}
-            >
-              View Details
+              onClick={() => handleViewDetails(ticket.id)}>View Details
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleClose(ticket.id)}>Close</DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleDelete(ticket.id)}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -271,6 +249,8 @@ export default function DataTable({initialData}){
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button className="ml-4"><Link href={'/pages/add-ticket'}>Add Ticket</Link></Button>
+
       </div>
       <div className="rounded-md border">
         <Table>

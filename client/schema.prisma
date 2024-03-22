@@ -1,5 +1,4 @@
 // schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -24,6 +23,7 @@ model Task {
   assigneeId  String?
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  comments    String[]
 }
 
 model User {
