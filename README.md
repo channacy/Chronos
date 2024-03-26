@@ -16,7 +16,7 @@ A ticket support system used to create, edit, delete, and close tickets.
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/channacy/Chronos.git
 ```
 
 Go to the project directory
