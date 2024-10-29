@@ -10,6 +10,7 @@ A ticket support system used to create, edit, delete, and close tickets.
 
 **Server:** Vercel Postgres
 
+**Database:** PostgreSQL 
 
 ## Run Locally
 
